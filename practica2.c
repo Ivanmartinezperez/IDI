@@ -86,11 +86,20 @@ void pinta_triangulo(punto entrada[]){
 // Funcion a la que llama el main para refrescar la pantalla; NOTA(Se ejecuta en cada iteracion del main);
 void refresh(void){
     glClear(GL_COLOR_BUFFER_BIT);
-    if(contador==3)pinta_triangulo(triangulo);
-    if(contador2==3)pinta_triangulo(triangulo2);
+    glPushMatrix();
+    if(contador==3){
+        pinta_triangulo(triangulo);
+        glRotatef(15,0,0,1);
+    }
+    glPopMatrix();
+    glPushMatrix();
+    if(contador2==3){
+        glRotatef(-15,0,0,1);
+        pinta_triangulo(triangulo2);
+    }
     glRotatef(10,0,1,0);
     glutSwapBuffers();
-    glLoadIdentity();
+    //glLoadIdentity();
     
 }
 /////////////////////////////////////////
@@ -122,30 +131,8 @@ void click_mouse(int boto,int no_pulsado,int x,int y){
         b = b/(anchura+altura);
         glClearColor(r,g,b,0.0);
     }
-    if(!no_pulsado & action=='m'){
-        float r=0;
-        float g=0;
-        scanf("%f",&r);
-        scanf("%f",&g);
-        glTranslatef(r,g,0.0);
-    }
-    if(!no_pulsado & action=='r'){
-        float angle=0;
-        char g='x';
-        scanf("%f",&angle);
-        scanf("%c",&g);
-        if(g=='x')glRotatef(angle,1.0,0.0,0.0);
-        else if(g=='y') glRotatef(angle,0.0,1.0,0.0);
-        else glRotatef(angle,0.0,0.0,1.0);
-    }
-    if(!no_pulsado & action=='s'){
-        float r=0;
-        float g=0;
-        scanf("%f",&r);
-        scanf("%f",&g);
-        glScalef(r,g,0.0);
-    }
-    if(!no_pulsado)glutPostRedisplay();
+      
+    //if(!no_pulsado)glutPostRedisplay();
 }
 
 int main(int argc, const char **argv){
