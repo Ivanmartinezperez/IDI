@@ -86,13 +86,11 @@ void pinta_triangulo(punto entrada[]){
 // Funcion a la que llama el main para refrescar la pantalla; NOTA(Se ejecuta en cada iteracion del main);
 void refresh(void){
     glClear(GL_COLOR_BUFFER_BIT);
-    glutWireSphere(0.5,90,90);
-    glutWireSphere(0.25,90,90);
-    glRotatef(15,0.0,1.1,0.0);
     if(contador==3)pinta_triangulo(triangulo);
     if(contador2==3)pinta_triangulo(triangulo2);
+    glRotatef(10,0,1,0);
     glutSwapBuffers();
-    //glLoadIdentity();
+    glLoadIdentity();
     
 }
 /////////////////////////////////////////
