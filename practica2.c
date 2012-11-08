@@ -19,31 +19,6 @@ void initGL(void){
 	glClearColor(0.0,0.0,0.0,0.0);
 }
 ///////////////////////////////
-//Funcion que se ejecuta al pulsar una tecla del teclado
-void keyboard_action(unsigned char act,int x, int y){
-    if (act=='h') {
-        printf("Keyboard Actions\n");
-        printf(" H: Activa el menu de ayuda.\n");
-        printf(" T: Activa el modo dibujado de triangulo, cada vez que quiera dibujar\n    un nuevo triangulo debera presionar esta tecla y hacer click con el mouse\n    en tres puntos de la pantalla que seran los vertices de este.\n");
-        printf(" P: Activa el modo pintura, en este modo puede hacer click\n    con el mouse en cualquier lugar de la pantalla, modificando\n    el color de fondo.\n");
-    }
-    if(act=='t'){
-        contador=0;
-        action='t';
-        glLoadIdentity();
-    }
-    if(act=='q'){
-        contador2=0;
-        action='q';
-        glLoadIdentity();
-    }
-    if(act=='p') action = 'p';
-    if(act=='m') action = 'm';
-    if(act=='s') action= 's';
-    if(act=='r') action= 'r';
-    //glutPostRedisplay();
-    
-}
 //Funcion de transformacion de coordenadas a puntos dentro del rango opengl; R=[-1,1];
 void coor_to_points(int x,int y,int control){
     float x_2= x;
@@ -83,21 +58,46 @@ void pinta_triangulo(punto entrada[]){
     glEnd();
 }
 //////////////////////////////////
+//Aplica transformaciones geometricas
+void aplica_TG(){
+    glPushMatrix();
+    glPushMatrix();
+    glRotatef(15,0,0,1);
+    pinta_triangulo(triangulo);
+    glPopMatrix();
+    glTranslatef(0.1,0.1,0);
+    pinta_triangulo(triangulo2);
+    glPopMatrix();
+    
+}
+/////////////////////////////////////
+//Funcion que se ejecuta al pulsar una tecla del teclado
+void keyboard_action(unsigned char act,int x, int y){
+    if (act=='h') {
+        printf("Keyboard Actions\n");
+        printf(" H: Activa el menu de ayuda.\n");
+        printf(" T: Activa el modo dibujado de triangulo, cada vez que quiera dibujar\n    un nuevo triangulo debera presionar esta tecla y hacer click con el mouse\n    en tres puntos de la pantalla que seran los vertices de este.\n");
+        printf(" P: Activa el modo pintura, en este modo puede hacer click\n    con el mouse en cualquier lugar de la pantalla, modificando\n    el color de fondo.\n");
+    }
+    if(act=='t'){
+        contador=0;
+        action='t';
+        glLoadIdentity();
+    }
+    if(act=='q'){
+        contador2=0;
+        action='q';
+        glLoadIdentity();
+    }
+    if(act=='g') aplica_TG();
+    if(act=='r') glutPostRedisplay();
+    if(act=='p') action = 'p';
+    
+}
+/////////////////////////////////////
 // Funcion a la que llama el main para refrescar la pantalla; NOTA(Se ejecuta en cada iteracion del main);
 void refresh(void){
     glClear(GL_COLOR_BUFFER_BIT);
-    glPushMatrix();
-    if(contador==3){
-        pinta_triangulo(triangulo);
-        glRotatef(15,0,0,1);
-    }
-    glPopMatrix();
-    glPushMatrix();
-    if(contador2==3){
-        glRotatef(-15,0,0,1);
-        pinta_triangulo(triangulo2);
-    }
-    glRotatef(10,0,1,0);
     glutSwapBuffers();
     //glLoadIdentity();
     
@@ -134,6 +134,8 @@ void click_mouse(int boto,int no_pulsado,int x,int y){
       
     //if(!no_pulsado)glutPostRedisplay();
 }
+
+
 
 int main(int argc, const char **argv){
 
