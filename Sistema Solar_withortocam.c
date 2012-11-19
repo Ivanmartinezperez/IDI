@@ -3,8 +3,9 @@
 #include <stdio.h>
   
   static int year = 0, day = 0, moon=0;
+float xleft = -4, xright = 4, yup=-4, ydown=4, znear=0, zfar=3;
   //Variables de Control
-  float angle=1;
+  
   void init(void){
      glClearColor (0.0, 0.0, 0.0, 0.0);
      //glShadeModel (GL_FLAT);
@@ -35,10 +36,11 @@
          glutWireSphere(0.07, 10, 8);                //luna
          /* draw smaller planet */
      glPopMatrix();
+     glMatrixMode (GL_PROJECTION);
+     glLoadIdentity ();
+     printf ("glOrtho: %f,%f,%f,%f,%f,%f\n",xleft,xright,yup,ydown,znear,zfar);
+     glOrtho(xleft,xright,yup,ydown,znear,zfar);
      glutSwapBuffers();
-     //glMatrixMode (GL_PROJECTION);
-     //glLoadIdentity ();
-     //gluPerspective(angle, 1.0, 1.0, 20.0);
      
  }
  
@@ -47,10 +49,10 @@
      glViewport (0, 0, (GLsizei) w, (GLsizei) h);
      glMatrixMode (GL_PROJECTION);
      glLoadIdentity ();
-     gluPerspective(60.0, (GLfloat) w/(GLfloat) h, 1.0, 20.0);
+     glOrtho(xleft,xright,yup,ydown,znear,zfar);
      glMatrixMode(GL_MODELVIEW);
      glLoadIdentity();
-     gluLookAt (0.0, 1.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+     //gluLookAt (0.0, 1.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
  }
  
  void keyboard (unsigned char key, int x, int y)
@@ -80,12 +82,38 @@
              moon = (moon - 10) % 360;
              glutPostRedisplay();
              break;
+         case 'i':
+             znear = znear + (0.1);
+             zfar = zfar + (0.1);
+             glutPostRedisplay();
+             break;
+         case 'k':
+             znear = znear + (-0.1);
+             zfar = zfar + (-0.1);
+             glutPostRedisplay();
+             break;
+         case 'l':
+             xleft = xleft + (0.1);
+             xright = xright + (0.1);
+             glutPostRedisplay();
+             break;
+         case 'j':
+             xleft = xleft + (-0.1);
+             xright = xright + (-0.1);
+             glutPostRedisplay();
+             break;
          case 'Z':
-             angle+=10;
+             xleft = xleft + (0.1);
+             xright = xright + (-0.1);
+             yup = yup + (0.1);
+             ydown = ydown + (-0.1);
              glutPostRedisplay();
              break;
          case 'z':
-             angle-=10;
+             xleft = xleft + (-0.1);
+             xright = xright + (0.1);
+             yup = yup + (-0.1);
+             ydown = ydown + (0.1);
              glutPostRedisplay();
              break;
          default:
