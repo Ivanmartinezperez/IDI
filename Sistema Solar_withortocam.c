@@ -39,7 +39,7 @@ float xleft = -4, xright = 4, yup=-4, ydown=4, znear=0, zfar=3;
      glMatrixMode (GL_PROJECTION);
      glLoadIdentity ();
      printf ("glOrtho: %f,%f,%f,%f,%f,%f\n",xleft,xright,yup,ydown,znear,zfar);
-     glOrtho(xleft,xright,yup,ydown,znear,zfar);
+     //glOrtho(xleft,xright,yup,ydown,znear,zfar);
      glutSwapBuffers();
      
  }
@@ -49,10 +49,10 @@ float xleft = -4, xright = 4, yup=-4, ydown=4, znear=0, zfar=3;
      glViewport (0, 0, (GLsizei) w, (GLsizei) h);
      glMatrixMode (GL_PROJECTION);
      glLoadIdentity ();
-     glOrtho(xleft,xright,yup,ydown,znear,zfar);
+     gluPerspective(60.0, 1.0, minz, maxz);
      glMatrixMode(GL_MODELVIEW);
      glLoadIdentity();
-     //gluLookAt (0.0, 1.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+     gluLookAt (0.0, 0.0, maxz, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
  }
  
  void keyboard (unsigned char key, int x, int y)
